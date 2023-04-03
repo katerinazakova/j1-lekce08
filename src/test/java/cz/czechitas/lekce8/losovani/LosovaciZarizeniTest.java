@@ -1,6 +1,5 @@
 package cz.czechitas.lekce8.losovani;
 
-import cz.czechitas.lekce8.losovani.LosovaciZarizeni;
 import org.junit.jupiter.api.RepeatedTest;
 
 import java.util.List;
@@ -24,7 +23,7 @@ class LosovaciZarizeniTest {
   @RepeatedTest(100)
   void losujSazkuHlavniTahDuplicity() {
     List<Integer> vylosovanaCisla = losovaciZarizeni.losujSazkuHlavniTahDuplicitni();
-    testujSazkuHlavniTah(vylosovanaCisla);
+    testujSazkuHlavniTahPovolDuplicity(vylosovanaCisla);
   }
 
   @RepeatedTest(100)
@@ -39,8 +38,13 @@ class LosovaciZarizeniTest {
     overSudaCisla(sudaCisla);
   }
 
-  private void testujSazkuHlavniTah(List<Integer> vylosovanaCisla) {
-    assertEquals(6, vylosovanaCisla.size(), "Vylosovaných čísle není 6.");
+  /**
+   * Otestuje, že je vylosovaných čísel 6 a že jsou v rozsahu 1–49.
+   *
+   * Neověřuje, zda čísla nejsou duplicitní.
+   */
+  private void testujSazkuHlavniTahPovolDuplicity(List<Integer> vylosovanaCisla) {
+    assertEquals(6, vylosovanaCisla.size(), "Vylosovaných čísel není 6.");
     assertTrue(vylosovanaCisla.stream()
                     .allMatch(cislo -> cislo >= 1 && cislo <= 49),
             () -> String.format(
@@ -48,7 +52,13 @@ class LosovaciZarizeniTest {
                     vylosovanaCisla.stream().min(Integer::compareTo).get(),
                     vylosovanaCisla.stream().max(Integer::compareTo).get()
             ));
+  }
 
+  /**
+   * Otestuje, že je vylosovaných čísel 6, že jsou v rozsahu 1–49 a ž enejsou duplicitní.
+   */
+  private void testujSazkuHlavniTah(List<Integer> vylosovanaCisla) {
+    testujSazkuHlavniTahPovolDuplicity(vylosovanaCisla);
     assertEquals(6, vylosovanaCisla.stream()
                     .distinct()
                     .count(),
