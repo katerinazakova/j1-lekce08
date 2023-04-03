@@ -9,6 +9,10 @@ import java.util.stream.IntStream;
  * Třída pro losování náhodných čísel.
  */
 public class LosovaciZarizeni {
+
+  private static final int NEJMENSI_CISLO = 1;
+  private static final int NEJVETSI_CISLO = 49;
+  private static final int POCET_LOSOVANYCH_CISEL = 6;
   private final Random random = new Random();
 
   /**
@@ -30,12 +34,23 @@ public class LosovaciZarizeni {
    * <p>
    * Losovaná čísla se nesmí opakovat.
    *
+   * @return Stream vylosovaných čísel.
+   */
+  public IntStream losujSazkuHlavniTah() {
+    return random.ints(NEJMENSI_CISLO, NEJVETSI_CISLO + 1) // 49 + 1, protože parametr horní hranice musí být mimo rozsah vracených hodnot.
+            .distinct()
+            .limit(POCET_LOSOVANYCH_CISEL);
+  }
+
+  /**
+   * Losuje 6 čísel v rozmezí 1–49.
+   * <p>
+   * Losovaná čísla se nesmí opakovat.
+   *
    * @return Seznam vylosovaných čísel.
    */
-  public List<Integer> losujSazkuHlavniTah() {
-    return random.ints(1, 49 + 1) // 49 + 1, protože parametr horní hranice musí být mimo rozsah vracených hodnot.
-            .distinct()
-            .limit(6)
+  public List<Integer> getSazkaHlavniTah() {
+    return losujSazkuHlavniTah()
             .boxed()
             .collect(Collectors.toList());
   }
@@ -47,8 +62,8 @@ public class LosovaciZarizeni {
    *
    * @return Seznam vylosovaných čísel.
    */
-  public List<Integer> losujSazkuHlavniTahDuplicitni() {
-    return losujSeznamCisel(1, 49, 6)
+  public List<Integer> getSazkaHlavniTahDuplicitni() {
+    return losujSeznamCisel(NEJMENSI_CISLO, NEJVETSI_CISLO, POCET_LOSOVANYCH_CISEL)
             .boxed()
             .collect(Collectors.toList());
   }
@@ -71,7 +86,7 @@ public class LosovaciZarizeni {
   /**
    * Losuje seznam čísel – všechna tažená čísla musí být sudá.
    * <p>
-   * Implementováno pomocí mapy, kterrá všechna tažená čísla zdovjnásobí.
+   * Implementováno pomocí mapy, která všechna tažená čísla zdovjnásobí.
    *
    * @param minimum Nejmenší možná vylosovaná hodnota.
    * @param maximum Nejvyšší možná vylosovaná hodnota.
@@ -83,21 +98,4 @@ public class LosovaciZarizeni {
             .map(cislo -> cislo * 2);
   }
 
-  /**
-   * Vypíše všechna vylosovaná čícsla.
-   */
-  public void vypisTazenaCisla(IntStream vylosovanaCisla) {
-    System.out.println("Dnešní vylosovaná čísla:");
-    vylosovanaCisla.forEachOrdered(this::vypisVylosovaneCislo);
-  }
-
-  /**
-   * Vypíše vylosované číslo na nový řádek s odrážkou.
-   *
-   * @param cislo Vylosované číslo k vypsání.
-   */
-  private void vypisVylosovaneCislo(int cislo) {
-    System.out.printf("• %d", cislo)
-            .println();
-  }
 }

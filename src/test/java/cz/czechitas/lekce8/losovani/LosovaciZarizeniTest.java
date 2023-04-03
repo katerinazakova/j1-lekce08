@@ -15,14 +15,14 @@ class LosovaciZarizeniTest {
   private final LosovaciZarizeni losovaciZarizeni = new LosovaciZarizeni();
 
   @RepeatedTest(100)
-  void losujSazkuHlavniTah() {
-    List<Integer> vylosovanaCisla = losovaciZarizeni.losujSazkuHlavniTah();
+  void getSazkuHlavniTah() {
+    List<Integer> vylosovanaCisla = losovaciZarizeni.getSazkaHlavniTah();
     testujSazkuHlavniTah(vylosovanaCisla);
   }
 
   @RepeatedTest(100)
-  void losujSazkuHlavniTahDuplicity() {
-    List<Integer> vylosovanaCisla = losovaciZarizeni.losujSazkuHlavniTahDuplicitni();
+  void getSazkuHlavniTahDuplicity() {
+    List<Integer> vylosovanaCisla = losovaciZarizeni.getSazkaHlavniTahDuplicitni();
     testujSazkuHlavniTahPovolDuplicity(vylosovanaCisla);
   }
 
